@@ -1,0 +1,34 @@
+Los mails se enviaran al cliente efectivamente al ejecutar este endpoint..
+es un procedimiento interno lo ejecuta el sistema
+Se puede pasar el ultimo parametro o no si no se lo pasa solo envia 1 mail
+sino envia la cantidad de mails solicitados que esten en estado para enviar
+
+https://apicampanias.cpymes.com.ar/campaniamail/enviomailslotes/1000
+
+
+
+Ejemplo codigo php curl
+
+<?php
+
+$curl = curl_init();
+
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'https://apicampanias.cpymes.com.ar/campaniamail/enviomailslotes/10',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'GET',
+  CURLOPT_HTTPHEADER => array(
+    'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjE0MjkzNTEsImlkdXN1YXJpbyI6IjIiLCJ1c2VybmFtZSI6Impvc2UiLCJpZGVtcHJlc2EiOiIyIiwiZW1wcmVzYW5vbWJyZSI6Ikxhc3RlbmlhVGVhbSIsIm1haWwiOiJpbmZvQGxhc3Rlbmlhc29mdHdhcmUuY29tLmFyIiwiZXhwIjpudWxsLCJleHBpcm8iOjE2MjE2MDIxNTF9.X6zmgUpgfni4ysqVfYyy_cGB0C2T98lDpyyRO0bsy3o',
+    'Cookie: PHPSESSID=57bab1237f4e9abe6c697051beb9abf1'
+  ),
+));
+
+$response = curl_exec($curl);
+
+curl_close($curl);
+echo $response;

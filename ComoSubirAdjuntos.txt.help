@@ -1,0 +1,45 @@
+Para adjuntar archivos a los mails
+primero subir el archio que se desea adjuntar
+Estos se guardan en un directorio del servidor
+en el header de la comunicacion pasar el token en la clave Authorization aca va "Bearer .....token...."
+del token se obtienen los datos del cliente empresa para armar el nombre del directorio y archivo
+se retorna una estructura con los datos de registracion del archivos
+el texto al final "imagendos" es una clave para validar el nombre del parametro debe ser el mismo ver ejemplo
+
+POST >>> https://apicampanias.cpymes.com.ar/subirarchivo/imagendos
+
+respuesta : directorio y archivo son utilizados luego en el parametro attachments al crear los mails...
+{
+    "error": 0,
+    "mensaje": "ok",
+    "directorio": "202105191700200002",
+    "archivo": "0519173742XITGjdBpSUJQk8hO.jpg"
+}
+
+
+Ejemplo php curl
+
+<?php
+
+$curl = curl_init();
+
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'https://apicampanias.cpymes.com.ar/subirarchivo/imagendos',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'POST',
+  CURLOPT_POSTFIELDS => array('imagendos'=> new CURLFILE('/C:/Users/Lastenia 1/Pictures/espasa/Amarok_Trendline_DC.jpg')),
+  CURLOPT_HTTPHEADER => array(
+    'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjE0MjkzNTEsImlkdXN1YXJpbyI6IjIiLCJ1c2VybmFtZSI6Impvc2UiLCJpZGVtcHJlc2EiOiIyIiwiZW1wcmVzYW5vbWJyZSI6Ikxhc3RlbmlhVGVhbSIsIm1haWwiOiJpbmZvQGxhc3Rlbmlhc29mdHdhcmUuY29tLmFyIiwiZXhwIjpudWxsLCJleHBpcm8iOjE2MjE2MDIxNTF9.X6zmgUpgfni4ysqVfYyy_cGB0C2T98lDpyyRO0bsy3o',
+    'Cookie: PHPSESSID=57bab1237f4e9abe6c697051beb9abf1'
+  ),
+));
+
+$response = curl_exec($curl);
+
+curl_close($curl);
+echo $response;

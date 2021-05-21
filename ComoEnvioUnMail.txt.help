@@ -1,0 +1,87 @@
+Endpoints
+
+Debemos tener un usuario asignado en la base se registra en la tabla usuarios..
+este endpoint espera los parametros username en base64 y clave son numeros
+nos retorna un token  parametro token..
+
+GET >>> https://apicampanias.cpymes.com.ar/seguridad/loginclave/am9zZQ/20531
+
+Con el token obteneido se puede invocar el endpoint enviomailmasivohtml para enviar varios mails
+en el header de la comunicacion pasar el token en la clave Authorization aca va "Bearer .....token...."
+y los parametros necesarios tiene la siguiente estructura
+
+{
+"idcampania": "1",
+"idusuarioenvio":234,
+"idmodulo":11,
+"idtipomensaje":1,
+"mails": [
+    {
+    "emailto64":"Z3VhcmRpYS5jaGVjYUBnbWFpbC5jb20=",
+    "idcliente":14,
+    "email_name":"Z3VhcmRpYWNoZWNh",
+    "subjetbase64":"bXV5IGltcG9ydGFudGU=",
+    "bodybase64":"PGh0bWw+PGgxPm1lbnNhamUgY29ydG8gMTIzPC9oMT48L2h0bWw+="
+    },
+    {
+    "emailto64":"Z3VhcmRpYS5jaGVjYUBnbWFpbC5jb20=",
+    "idcliente":14,
+    "email_name":"Z3VhcmRpYWNoZWNh",
+    "subjetbase64":"bXV5IGltcG9ydGFudGU=",
+    "bodybase64":"PGh0bWw+PGgxPm1lbnNhamUgY29ydG8gMTIzPC9oMT48L2h0bWw+="
+    }
+],
+"attachments":[{"directorio": "202105191700200002", "archivo": "0519173742XITGjdBpSUJQk8hO.jpg"}]
+}
+
+Estos datos se registran en el sistema se evalua si el cliente tiene credito para enviar estos mensajes
+se evalua el credito por modulo si esta configurada esta opcion
+los adjuntos se suben previamente con otro endpoint
+
+
+POST >>> https://apicampanias.cpymes.com.ar/campaniamail/altamailmasivohtml
+
+
+Ejemplo Codigo Php curl..
+
+<?php
+
+$curl = curl_init();
+
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'https://apicampanias.cpymes.com.ar/campaniamail/enviomailmasivohtml',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'POST',
+  CURLOPT_POSTFIELDS =>'{
+    "idcampania": "1",
+    "idusuarioenvio":234,
+    "idmodulo":11,
+    "idtipomensaje":1,
+    "mails": [
+    {
+    "emailto64":"Z3VhcmRpYS5jaGVjYUBnbWFpbC5jb20=",
+    "idcliente":14,
+    "email_name":"Z3VhcmRpYWNoZWNh",
+    "subjetbase64":"bXV5IGltcG9ydGFudGU=",
+    "bodybase64":"PGh0bWw+PGgxPm1lbnNhamUgY29ydG8gMTIzPC9oMT48L2h0bWw+="
+    }
+    ],
+    "attachments":[{"directorio": "202105191700200002", "archivo": "0519173847POtBg658iCombH4h.png"}]
+}
+
+',
+  CURLOPT_HTTPHEADER => array(
+    'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjEyNTcwODIsImlkdXN1YXJpbyI6IjIiLCJ1c2VybmFtZSI6Impvc2UiLCJpZGVtcHJlc2EiOiIyIiwiZW1wcmVzYW5vbWJyZSI6Ikxhc3RlbmlhVGVhbSIsIm1haWwiOiJpbmZvQGxhc3Rlbmlhc29mdHdhcmUuY29tLmFyIiwiZXhwIjpudWxsLCJleHBpcm8iOjE2MjE0Mjk4ODJ9.6QDYkxrUw4I80ElxrfiXBror5coK5gmHnLBPWmYXTZI',
+    'Content-Type: text/plain'
+  ),
+));
+
+$response = curl_exec($curl);
+
+curl_close($curl);
+echo $response;

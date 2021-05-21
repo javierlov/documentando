@@ -1,0 +1,33 @@
+Para consultar los mails enviados
+Estos estan registrados en tablas de la base de datos del sistema
+en el header de la comunicacion pasar el token en la clave Authorization aca va "Bearer .....token...."
+del token se obtienen los datos del cliente empresa que esta consultando
+
+GET >>> https://apicampanias.cpymes.com.ar/campaniamail/mismails
+
+
+Ejemplo codigo php curl
+
+<?php
+
+$curl = curl_init();
+
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'https://apicampanias.cpymes.com.ar/seguridad/loginclave/am9zZQ/20531',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'GET',
+  CURLOPT_HTTPHEADER => array(
+    'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjA4Mzg4MTIsImlkdXN1YXJpbyI6IjEiLCJ1c2VybmFtZSI6ImFkbWluIiwiaWRlbXByZXNhIjoiMSIsImVtcHJlc2Fub21icmUiOiJMYXN0ZW5pYSBQZXJpdGFqZSBVbmlkYWRlcyBMUFUiLCJtYWlsIjoiaW5mb0BsYXN0ZW5pYXNvZnR3YXJlLmNvbS5hciIsImV4cCI6bnVsbCwiZXhwaXJvIjoxNjIxMDExNjEyfQ.ba2o6dR5An1_6uu8pxwqKiMmj6MhNRs2QRHeenNEuCM',
+    'Cookie: PHPSESSID=57bab1237f4e9abe6c697051beb9abf1'
+  ),
+));
+
+$response = curl_exec($curl);
+
+curl_close($curl);
+echo $response;
